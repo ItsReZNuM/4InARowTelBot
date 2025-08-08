@@ -193,4 +193,7 @@ Got questions, suggestions, or issues? Reach out to us!
 
 
 🌟 **Drop a piece, have some fun, and aim for four in a row!** 🎮
+
+---
+
 **Made with ❤️ by ItsReZNuM**
