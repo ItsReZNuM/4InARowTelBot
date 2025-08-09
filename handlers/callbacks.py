@@ -161,7 +161,7 @@ def register_callbacks(bot):
                     points = {"easy": 1, "medium": 3, "hard": 10}[state["difficulty"]]
                     update_leaderboard(user_id, state["user_name"], points)
                     bot.edit_message_text(
-                        f"تو برنده شدی! 🎉 {points} امتیاز گرفتی\n\n{render_multi_board(board)}",
+                        f"تو برنده شدی! 🎉 {points} امتیاز گرفتی\n\n{render_board(board)}",
                         state["chat_id"],
                         state["message_id"],
                         reply_markup=end_game_markup()
@@ -171,7 +171,7 @@ def register_callbacks(bot):
 
                 if check_draw(state["board"]):
                     bot.edit_message_text(
-                        f"بازی بدون برنده به پایان رسید! 🤝\n\n {render_multi_board(board)}",
+                        f"بازی بدون برنده به پایان رسید! 🤝\n\n {render_board(board)}",
                         state["chat_id"],
                         state["message_id"],
                         reply_markup=end_game_markup()
@@ -190,7 +190,7 @@ def register_callbacks(bot):
                     state["turn"] = "player"
                     if check_winner(state["board"], "bot"):
                         bot.edit_message_text(
-                            f"ربات برنده شد! 😢\n\n{render_multi_board(board)}",
+                            f"ربات برنده شد! 😢\n\n{render_board(board)}",
                             state["chat_id"],
                             state["message_id"],
                             reply_markup=end_game_markup()
@@ -200,7 +200,7 @@ def register_callbacks(bot):
 
                     if check_draw(state["board"]):
                         bot.edit_message_text(
-                            f"بازی بدون برنده به پایان رسید! 🤝\n\n {render_multi_board(board)}",
+                            f"بازی بدون برنده به پایان رسید! 🤝\n\n {render_board(board)}",
                             state["chat_id"],
                             state["message_id"],
                             reply_markup=end_game_markup()
