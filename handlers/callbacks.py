@@ -77,9 +77,9 @@ def register_callbacks(bot):
                 bot.answer_callback_query(call.id, err)
                 return
             markup = types.InlineKeyboardMarkup()
-            markup.add(types.InlineKeyboardButton("آسان 😊", callback_data="difficulty_easy"))
-            markup.add(types.InlineKeyboardButton("متوسط 😎", callback_data="difficulty_medium"))
-            markup.add(types.InlineKeyboardButton("سخت 😈", callback_data="difficulty_hard"))
+            markup.add(types.InlineKeyboardButton("آسون 😊 (همینجوری الکی فقط مهره میندازه)", callback_data="difficulty_easy"))
+            markup.add(types.InlineKeyboardButton("متوسط 😎 (با استدلال های ساده بازی رو جلو میبره)", callback_data="difficulty_medium"))
+            markup.add(types.InlineKeyboardButton("سخت 😈 (بردن این سختی ، کار هر کسی نیست)", callback_data="difficulty_hard"))
             bot.edit_message_text("سطح سختی رو انتخاب کن: 🎯", call.message.chat.id, call.message.message_id, reply_markup=markup)
         except Exception as e:
             logger.error(f"Error in start_game: {e}")
@@ -155,12 +155,13 @@ def register_callbacks(bot):
                 return
 
             row = drop_piece(state["board"], col, "player")
+            board = state["board"]
             if row is not None:
                 if check_winner(state["board"], "player"):
                     points = {"easy": 1, "medium": 3, "hard": 10}[state["difficulty"]]
                     update_leaderboard(user_id, state["user_name"], points)
                     bot.edit_message_text(
-                        f"تو برنده شدی! 🎉 {points} امتیاز گرفتی!",
+                        f"تو برنده شدی! 🎉 {points} امتیاز گرفتی\n\n{render_multi_board(board)}",
                         state["chat_id"],
                         state["message_id"],
                         reply_markup=end_game_markup()
@@ -170,7 +171,7 @@ def register_callbacks(bot):
 
                 if check_draw(state["board"]):
                     bot.edit_message_text(
-                        f"بازی بدون برنده به پایان رسید! 🤝",
+                        f"بازی بدون برنده به پایان رسید! 🤝\n\n {render_multi_board(board)}",
                         state["chat_id"],
                         state["message_id"],
                         reply_markup=end_game_markup()
@@ -183,12 +184,13 @@ def register_callbacks(bot):
 
                 # bot move
                 col = bot_move(state["board"], state["difficulty"])
+                board = state["board"]
                 if col is not None:
                     drop_piece(state["board"], col, "bot")
                     state["turn"] = "player"
                     if check_winner(state["board"], "bot"):
                         bot.edit_message_text(
-                            "ربات برنده شد! 😢",
+                            f"ربات برنده شد! 😢\n\n{render_multi_board(board)}",
                             state["chat_id"],
                             state["message_id"],
                             reply_markup=end_game_markup()
@@ -198,7 +200,7 @@ def register_callbacks(bot):
 
                     if check_draw(state["board"]):
                         bot.edit_message_text(
-                            f"بازی بدون برنده به پایان رسید! 🤝",
+                            f"بازی بدون برنده به پایان رسید! 🤝\n\n {render_multi_board(board)}",
                             state["chat_id"],
                             state["message_id"],
                             reply_markup=end_game_markup()
